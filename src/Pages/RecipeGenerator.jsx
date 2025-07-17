@@ -10,11 +10,22 @@ function RecipeGenerator() {
     const [input, setInput] = useState("");
     const [response, setResponse] = useState("");
     const [ingredients, setIngredients] = useState([]);
-    const [imageSrc, setImageSrc] = useState("")
-    const imageName = "an image of burger"
+    const [result, setResult] = useState('');
 
     const RECIPE_API_KEY = import.meta.env.VITE_RECIPE_API_KEY;
-    const IMAGE_API_KEY = import.meta.env.VITE_IMAGE_API_KEY;
+
+
+    const fetchImages = async () => {
+        try {
+            const res = await axios.post('http://localhost:3000/generate-image', {
+                prompt: 'pasta'
+            })
+            setResult(res.data)
+            console.log(result);
+        } catch (err) {
+            console.error('Error:', err)
+        }
+    }
 
     const prompt = `You are a professional chef and recipe expert. Based on the ingredients provided, create a detailed, practical recipe.
 
@@ -58,16 +69,6 @@ _Beginner / Intermediate / Advanced_
 
 ⚠️ Do not include anything outside the Markdown. No extra explanations or introductions. Also avoid using Italic Font.
 `;
-
-    const generateImage = async (imagePrompt) => {
-        const response = await axios.get('https://api.freepik.com/v1/resources', {
-            headers: {
-                'x-freepik-api-key': IMAGE_API_KEY
-            }
-        });
-
-        console.log(response);
-    }
 
     const generateRecipe = async () => {
         try {
@@ -196,7 +197,7 @@ _Beginner / Intermediate / Advanced_
                         </select>
                     </div>
 
-                    <button onClick={generateImage} className='flex bg-gradient-to-r from-orange-400 to-orange-600 rounded-xl p-4 justify-center gap-3'>
+                    <button onClick={fetchImages} className='flex bg-gradient-to-r from-orange-400 to-orange-600 rounded-xl p-4 justify-center gap-3'>
                         <Search />
                         <p className='font-bold'>Generate Recipe</p>
                         <Sparkles />
