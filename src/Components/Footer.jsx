@@ -94,7 +94,7 @@ function Footer() {
             </div>
 
             {/* Bottom Footer */}
-            <div className='flex flex-col lg:flex-row items-center gap-5 text-slate-400 px-10 py-7 border-t border-slate-700/50'>
+            <div className='flex flex-col lg:flex-row items-center gap-5 text-slate-400 px-2 md:px-7 py-7 border-t border-slate-700/50'>
                 <p>© 2025 Daily Dish. All rights reserved.</p>
                 <div className='flex gap-5'>
                     <p>Privacy Policy</p>

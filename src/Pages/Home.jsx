@@ -2,7 +2,7 @@ import React from 'react'
 
 function Home() {
     return (
-        <main className='mt-20 pb-15 px-5 flex flex-col items-center text-white bg-gradient-to-r from-slate-800 to-slate-900 w-full' >
+        <main className='mt-20 pb-15 px-4.5 flex flex-col items-center text-white bg-gradient-to-r from-slate-800 to-slate-900 w-full' >
             <h2 className='text-3xl sm:text-5xl lg:text-6xl xl:text-7xl mt-3 sm:mb-3 sm:mt-6 md:mb-4 md:mt-9 lg:mb-5 lg:mt-14 font-bold bg-gradient-to-r from-orange-400 via-red-500 to-pink-600 bg-clip-text text-transparent p-3'>Discover Amazing</h2>
             <h4 className='text-3xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold'>Recipes Daily</h4>
             

@@ -49,8 +49,8 @@ function RecipeGenerator() {
 
 
                 {/* HeroSection  */}
-                <div className='flex flex-col items-center'>
-                    <div className='flex items-center mt-15'>
+                <div className='flex flex-col items-center mt-10 py-5'>
+                    <div className='flex items-center'>
                         <div className='bg-orange-500 p-3 rounded-xl mr-5 animate-bounce'>
                             <ChefHat color='white' size={25} />
                         </div>
@@ -59,8 +59,8 @@ function RecipeGenerator() {
                         </div>
                     </div>
 
-                    <div>
-                        <h3 className='text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl mt-2.5 mb-2 sm:mb-3 sm:mt-3 md:mb-4 md:mt-4 lg:mb-5 lg:mt-5 font-bold bg-gradient-to-r from-orange-400 via-orange-450 to-orange-500 bg-clip-text text-transparent p-3'>
+                    <div className='flex flex-col items-center'>
+                        <h3 className='text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl mt-2.5 mb-2 sm:mb-3 sm:mt-3 md:mb-4 md:mt-4 lg:mb-5 lg:mt-5 font-bold bg-gradient-to-r from-orange-400 via-orange-450 to-orange-500 bg-clip-text text-transparent p-3'>
                             Recipe Generator
                         </h3>
 
@@ -71,7 +71,7 @@ function RecipeGenerator() {
                 </div>
 
                 {/* InputContainer  */}
-                <div className='max-w-2xl w-full rounded-3xl p-10 bg-slate-800/50 border-2 border-slate-700/50 flex flex-col gap-6 mt-5'>
+                <div className='max-w-2xl w-full rounded-3xl px-5 py-10 bg-slate-800/50 border-2 border-slate-700/50 flex flex-col gap-6 mt-5'>
                     <form onSubmit={addIngredients}>
                         <h5 className='text-orange-300 font-semibold pb-2 pl-0.5'>What ingredients do you have?</h5>
 
@@ -81,23 +81,23 @@ function RecipeGenerator() {
                                 onChange={(e) => setInput(e.target.value)}
                                 type='text'
                                 placeholder='Enter an ingredient'
-                                className='w-full bg-slate-700/50 text-white px-4 py-3 rounded-xl border-2 border-slate-600 focus:border-orange-500 focus:outline-none transition-all duration-300 placeholder-slate-400'
+                                className='w-full bg-slate-700/50 text-white px-4 py-2.5 sm:py-3 rounded-xl border-2 border-slate-600 focus:border-orange-500 focus:outline-none transition-all duration-300 placeholder-slate-400'
                             />
                             <button
                                 type='submit'
                                 aria-label='Add ingredient'
-                                className='bg-gradient-to-r from-orange-400 to-orange-700 p-3.5 rounded-xl'
+                                className='bg-gradient-to-r from-orange-400 to-orange-700 p-3 rounded-xl'
                             >
                                 <Plus />
                             </button>
                         </div>
 
                         {ingredients.length > 0 && (
-                            <div className='flex flex-wrap gap-3 mt-4'>
+                            <div className='flex flex-wrap gap-2 sm:gap-3 mt-4'>
                                 {ingredients.map((item, index) => (
                                     <span
                                         key={index}
-                                        className='bg-slate-700/60 text-white px-4 py-2 rounded-full border border-orange-500 flex items-center gap-2 text-sm'
+                                        className='bg-slate-700/60 text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl sm:rounded-full border border-orange-500 flex gap-1 sm:gap-2 items-center text-xs sm:text-sm'
                                     >
                                         {item}
                                         <button
@@ -105,7 +105,7 @@ function RecipeGenerator() {
                                             className='text-orange-300 hover:text-red-400 transition'
                                             onClick={() => removeIngredient(index)}
                                         >
-                                            <X className='w-4 h-4' />
+                                            <X className='w-3 h-3 sm:w-4 sm:h-4' />
                                         </button>
                                     </span>
                                 ))}
@@ -115,7 +115,7 @@ function RecipeGenerator() {
 
                     <div>
                         <h6 className='text-orange-300 font-semibold text-center mb-2'>Cuisine Type</h6>
-                        <select className='w-full bg-slate-700/50 text-white px-4 py-3 rounded-xl border-2 border-slate-600 focus:border-orange-500 focus:outline-none transition-all duration-300'>
+                        <select className='w-full bg-slate-700/50 text-white px-4 py-2.5 sm:py-3 rounded-xl border-2 border-slate-600 focus:border-orange-500 focus:outline-none transition-all duration-300'>
                             <option value='0'>Asian</option>
                             <option value='1'>Mexican</option>
                             <option value='2'>Italian</option>
@@ -124,7 +124,7 @@ function RecipeGenerator() {
 
                     <div>
                         <h6 className='text-orange-300 font-semibold text-center mb-2'>Cooking Time</h6>
-                        <select className='w-full bg-slate-700/50 text-white px-4 py-3 rounded-xl border-2 border-slate-600 focus:border-orange-500 focus:outline-none transition-all duration-300'>
+                        <select className='w-full bg-slate-700/50 text-white px-4 py-2.5 sm:py-3 rounded-xl border-2 border-slate-600 focus:border-orange-500 focus:outline-none transition-all duration-300'>
                             <option value='0'>Any Time</option>
                             <option value='1'>Under 15 mins</option>
                             <option value='2'>Under 30 mins</option>
@@ -135,7 +135,7 @@ function RecipeGenerator() {
 
                     <div>
                         <h6 className='text-orange-300 font-semibold text-center mb-2'>Dietary Needs</h6>
-                        <select className='w-full bg-slate-700/50 text-white px-4 py-3 rounded-xl border-2 border-slate-600 focus:border-orange-500 focus:outline-none transition-all duration-300'>
+                        <select className='w-full bg-slate-700/50 text-white px-4 py-2.5 sm:py-3 rounded-xl border-2 border-slate-600 focus:border-orange-500 focus:outline-none transition-all duration-300'>
                             <option value='0'>No Restrictions</option>
                             <option value='1'>Vegetarian</option>
                             <option value='2'>Vegan</option>
@@ -173,13 +173,13 @@ function RecipeGenerator() {
                             components={{
                                 h1: ({ children }) => (
                                     <>
-                                        <h1 className="text-3xl text-center md:text-4xl font-bold mb-6 text-orange-400 border-b-2 border-orange-400 pb-3">
+                                        <h1 className="text-xl text-center md:text-3xl lg:text-5xl font-bold mb-6 text-orange-400 border-b-2 border-orange-400 pb-3">
                                             {children}
                                         </h1>
                                         {imageURL && (
                                             <>
                                                 {imageLoading && (
-                                                    <div className='rounded-3xl bg-gradient-to-br from-gray-600 via-gray-500 to-gray-700 animate-pulse aspect-square w-full'></div>
+                                                    <div className='rounded-3xl bg-gradient-to-br from-gray-600 via-gray-500 to-gray-700 animate-pulse w-full aspect-square'></div>
                                                 )}
 
                                                 <div className="my-6">
@@ -187,7 +187,7 @@ function RecipeGenerator() {
                                                         src={imageURL}
                                                         alt="Recipe"
                                                         width={200}
-                                                        className={`${imageLoading ? 'hidden' : 'block'} w-full h-auto object-cover rounded-3xl`}
+                                                        className={`${imageLoading ? 'hidden' : 'block'} w-full sm:w-4/10 h-auto object-cover rounded-3xl`}
                                                         onLoad={() => setImageLoading(false)}
                                                         style={{ opacity: imageLoading ? 0 : 1, transition: 'opacity 0.5s ease' }}
                                                     />
