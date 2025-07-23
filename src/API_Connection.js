@@ -3,8 +3,8 @@ import { useState } from "react";
 
 const RECIPE_API_KEY = import.meta.env.VITE_RECIPE_API_KEY;
 
-const Width = "512";
-const Height = "512";
+const Width = "800";
+const Height = "400";
 const Model = 'flux';
 
 const prompt = (ingredients) => {
@@ -66,7 +66,7 @@ const getImages = (imageName) => {
     seed,
   })
 
-  const fullUrl = `${baseUrl}${encodedPrompt}?${params.toString}`;
+  const fullUrl = `${baseUrl}${encodedPrompt}?${params.toString()}`;
   console.log(fullUrl)
   return fullUrl;
 };
@@ -79,7 +79,7 @@ const getRecipe = async (ingredients) => {
       {
         model: "mistralai/mistral-7b-instruct",
         messages: [
-          { role: "user", content: `Suggest a recipe with: ${prompt(ingredients)}` },
+          { role: "user", content: `${prompt(ingredients)}` },
         ],
         temperature: 0.7,
       },

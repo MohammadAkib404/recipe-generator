@@ -6,7 +6,7 @@ function Header() {
     const [isMenu, setIsMenuOpen] = useState(false);
 
     return (
-        <header className='fixed my-auto h-20 border-2 border-slate-700/50 top-0 right-0 left-0 text-white bg-gradient-to-r from-slate-800 to-slate-900 py-2 md:py-2.5 lg:py-3 z-50'>
+        <header className='my-auto h-20 border-2 border-slate-700/50 text-white bg-gradient-to-r from-slate-800 to-slate-900 py-2 md:py-2.5 lg:py-3 z-50'>
             <div className='max-w-7xl mx-auto flex justify-between items-center px-6 md:px-8 lg:px-10'>
                 <div className='flex items-center'>
                     <div className='relative'>
@@ -59,7 +59,7 @@ function Header() {
             </div>
 
             {/* Mobile Navigation */}
-            <nav className={`md:hidden absolute top-full w-full flex flex-col gap-5 p-5 transform transition-all duration-300 bg-gradient-to-r from-slate-800 to-slate-900 ${isMenu ? "max-h-80 opacity-100" : "max-h-0 opacity-0 overflow-hidden"}`}>
+            <nav className={`md:hidden absolute w-full flex flex-col gap-5 p-5 transform transition-all duration-300 bg-gradient-to-r from-slate-800 to-slate-900 ${isMenu ? "max-h-80 opacity-100" : "max-h-0 opacity-0 overflow-hidden"}`}>
                 <Link to="/" onClick={() => setIsMenuOpen(false)} className='relative px-4 py-2.5 text-slate-200 font-medium text-sm tracking-wide hover:text-white transition-all duration-300 group'>
                     <span className='relative z-10'>Home</span>
                     <div className='absolute inset-0 bg-gradient-to-r from-orange-500/0 via-orange-500/10 to-orange-500/0 rounded-lg opacity-0 group-hover:opacity-100 transition-all duration-300'></div>
