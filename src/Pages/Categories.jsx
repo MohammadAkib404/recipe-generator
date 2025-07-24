@@ -9,14 +9,18 @@ function Recipes() {
     }
 
     return (
-        <div className='pt-25 p-10 flex flex-col items-center gap-3 bg-gradient-to-r from-slate-800 to-slate-900 text-slate-300'>
-            <h2>
-                <span className='text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-slate-300'>Featured </span>
-                <span className='text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold bg-gradient-to-r from-orange-400 to-red-500 bg-clip-text text-transparent'>Recipes</span>
-            </h2>
+        <div className='pt-25 p-10 flex flex-col items-center gap-8 bg-gradient-to-r from-slate-800 to-slate-900 text-slate-300'>
+            {/* Header  */}
+            <div className='text-center space-y-3'>
+                <h2>
+                    <span className='text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-slate-300'>Featured </span>
+                    <span className='text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold bg-gradient-to-r from-orange-400 to-red-500 bg-clip-text text-transparent'>Recipes</span>
+                </h2>
 
-            <p className='text-sm sm:text-base md:text-lg lg:text-xl text-slate-400'>Hand picked recipes that our community loves most</p>
+                <p className='text-sm sm:text-base md:text-lg lg:text-xl text-slate-400'>Hand picked recipes that our community loves most</p>
+            </div>
 
+            {/* Card Section */}
             <div className='flex gap-5'>
                 <div className='flex flex-col h-95 w-100 rounded-2xl shadow-2xl overflow-hidden'>
                     <img src='./image_2.png' className=' w-full h-11/20'></img>
