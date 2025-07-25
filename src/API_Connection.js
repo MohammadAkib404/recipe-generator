@@ -5,10 +5,12 @@ const RECIPE_API_KEY = import.meta.env.VITE_RECIPE_API_KEY;
 
 const Width = "800";
 const Height = "400";
-const Model = 'flux';
+const Model = "flux";
 
-const prompt = (ingredients) => {
-  return `You are a professional chef and recipe expert. Based on the ingredients provided, create a detailed, practical recipe.
+const prompt = (recipeTitle, ingredients) => {
+  return `You are a professional chef and recipe expert. Based on the ingredients ${
+    recipeTitle ? `and ${recipeTitle}` : ""
+  } provided, create a detailed, practical recipe.
 
 INGREDIENTS AVAILABLE: ${ingredients}
 
@@ -16,8 +18,7 @@ INGREDIENTS AVAILABLE: ${ingredients}
 
 Use the following Markdown structure **with proper headings and spacing**:
 
-# 🧑‍🍳 Recipe Name  
-_A creative but clear title_
+# 🧑‍🍳 ${recipeTitle || "A unique and relevant dish title"}
 
 ## ⏱ Cooking Time  
 _Preparation + Cooking duration_
@@ -50,7 +51,7 @@ _Beginner / Intermediate / Advanced_
 
 ⚠️ Do not include anything outside the Markdown. No extra explanations or introductions. Also avoid using Italic Font.
 `;
-}
+};
 
 const getImages = (imageName) => {
   const seed = String(Math.floor(Math.random() * 100));
@@ -60,27 +61,26 @@ const getImages = (imageName) => {
   const params = new URLSearchParams({
     width: Width,
     height: Height,
-    noLogo: 'true',
-    enhance: 'true',
+    noLogo: "true",
+    enhance: "true",
     model: Model,
     seed,
-  })
+  });
 
   const fullUrl = `${baseUrl}${encodedPrompt}?${params.toString()}`;
-  console.log(fullUrl)
+  console.log(fullUrl);
   return fullUrl;
 };
 
-
-const getRecipe = async (ingredients) => {
+const getRecipe = async (recipeTitle, ingredients) => {
+  console.log(recipeTitle)
   try {
+    console.log(`${ingredients} from `);
     const res = await axios.post(
       "https://openrouter.ai/api/v1/chat/completions",
       {
         model: "mistralai/mistral-7b-instruct",
-        messages: [
-          { role: "user", content: `${prompt(ingredients)}` },
-        ],
+        messages: [{ role: "user", content: `${prompt(recipeTitle, ingredients)}` }],
         temperature: 0.7,
       },
       {
@@ -96,8 +96,7 @@ const getRecipe = async (ingredients) => {
     return reply;
   } catch (error) {
     console.error("Recipe generation error:", error);
-    return reply;
   }
 };
 
-export {getRecipe, getImages};
+export { getRecipe, getImages };

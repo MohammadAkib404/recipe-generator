@@ -1,8 +1,9 @@
 import Formatter from "../Formatter";
 import { getImages, getRecipe } from '../API_Connection';
 import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
-export default function Recipe({ingredients}){
+export default function Recipe(props){ // Ingredients, Recipe Title, showRecipe
 
     const [recipe, setRecipe] = useState("");
     const [imageURL, setImageURL] = useState('https://image.pollinations.ai/prompt/Rice%20and%20Beef%20Stir%20fry?function');
@@ -10,13 +11,19 @@ export default function Recipe({ingredients}){
     const [recipeLoading, setRecipeLoading] = useState(false);
     const [imageLoading, setImageLoading] = useState(false);
 
+    const location = useLocation();
+
     useEffect(() => {
         generateRecipe();
-    }, [ingredients])
+    }, [props.showRecipe])
 
     const generateRecipe = async () => {
+        const recipeTitle = props?.recipeTitle || location.state?.recipeTitle || '';
+        const ingredients = props.ingredients || location.state?.ingredients; 
+        console.log(ingredients);
+
         setRecipeLoading(true);
-        const recipe = await getRecipe(ingredients);
+        const recipe = await getRecipe(recipeTitle, ingredients);
         setRecipe(recipe);
 
         const imageName = recipe.split('/n')[0].replace(/[^a-zA-Z0-9\s]/g, '');

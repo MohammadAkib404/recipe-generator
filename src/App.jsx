@@ -7,6 +7,7 @@ import Home from './Pages/Home'
 import Footer from './Components/Footer'
 import RecipeGenerator from './Pages/RecipeGenerator'
 import Categories from './Pages/Categories'
+import Recipe from './Pages/Recipe'
 
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
         <Route path='/' element={<Home/>}/>
         <Route path='/recipe-generator' element={<RecipeGenerator/>}/>
         <Route path='/categories' element={<Categories/>}/>
+        <Route path='/recipe' element={<Recipe/>} />
       </Routes>
       <Footer/>
     </>

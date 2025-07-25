@@ -6,6 +6,7 @@ import Recipe from './Recipe';
 function RecipeGenerator() {
 
     const [input, setInput] = useState("");
+
     const [ingredients, setIngredients] = useState([]);
     const [showRecipe, setShowRecipe] = useState(false);
 
@@ -136,7 +137,7 @@ function RecipeGenerator() {
                 
             </section>
             {showRecipe && 
-                <Recipe ingredients={ingredients} />
+                <Recipe ingredients={ingredients} showRecipe={showRecipe} />
             }
         </>
     )
