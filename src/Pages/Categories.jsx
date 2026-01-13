@@ -185,27 +185,27 @@ function Categories() {
 
     return (
         <>
-            <section className='p-10 flex flex-col items-center gap-8 bg-gradient-to-r from-slate-800 to-slate-900 text-slate-300'>
+            <section className='px-3 sm-plus:px-10 py-15 flex flex-col items-center gap-8 bg-gradient-to-r from-slate-800 to-slate-900 text-slate-300'>
                 <div className='text-center space-y-3'>
                     <h2>
-                        <span className='text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-slate-300'>Featured </span>
-                        <span className='text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold bg-gradient-to-r from-orange-400 to-red-500 bg-clip-text text-transparent'>Recipes</span>
+                        <span className='text-2xl sm-plus:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-slate-300'>Featured </span>
+                        <span className='text-2xl sm-plus:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold bg-gradient-to-r from-orange-400 to-red-500 bg-clip-text text-transparent'>Recipes</span>
                     </h2>
-                    <p className='text-sm sm:text-base md:text-lg lg:text-xl text-slate-400'>Hand picked recipes that our community loves most</p>
+                    <p className='text-sm sm-plus:text-base md:text-lg lg:text-xl text-slate-400'>Hand picked recipes that our community loves most</p>
                 </div>
 
-                <div className='flex flex-wrap justify-center max-w-400 md:px-10 lg:px-20 gap-5'>
+                <div className='flex flex-wrap justify-center max-w-125 sm-plus:max-w-400 gap-x-3 sm-plus:gap-x-8 gap-y-12'>
                     {cardData.map((recipe, index) => (
-                        <div key={index} className='flex flex-col h-90 w-65 sm:w-70 rounded-2xl overflow-hidden'>
-                            <img src={recipe.imageUrl} className='w-full' />
-                            <div className='flex flex-col justify-center gap-3 bg-slate-800 px-6 h-9/20'>
-                                <h3 className='text-2xl font-bold'>{recipe.cardTitle}</h3>
-                                <div className='flex gap-3'>
-                                    <p className='flex items-center gap-1.5'><Clock size={20} />{recipe.time} min</p>
-                                    <p className='flex items-center gap-1.5'><Users size={20} />{recipe.serves}</p>
-                                    <p className='flex items-center gap-1.5'><Star size={20} fill='yellow' color='white' />{recipe.rating}</p>
+                        <div key={index} className='flex flex-col h-40 w-35 sm-plus:h-79 sm-plus:w-80 rounded-2xl border-2 border-slate-500/50 overflow-hidden'>
+                            <img src={recipe.imageUrl} className='w-full h-auto'/>
+                            <div className='flex flex-col justify-center gap-1.75 sm-plus:gap-3 bg-slate-800 px-2 sm-plus:px-6 h-full '>
+                                <h3 className='text-[0.6rem] sm-plus:text-[1.375rem] font-bold'>{recipe.cardTitle}</h3>
+                                <div className='flex gap-1 sm-plus:gap-3 text-[0.5rem] sm-plus:text-base'>
+                                    <p className='flex items-center gap-1 sm-plus:gap-1.5'><Clock className='w-3 h-3 sm-plus:w-6 sm-plus:h-6' />{recipe.time} min</p>
+                                    <p className='flex items-center gap-1 sm-plus:gap-1.5'><Users className='w-3 h-3 sm-plus:w-6 sm-plus:h-6' />{recipe.serves}</p>
+                                    <p className='flex items-center gap-1 sm-plus:gap-1.5'><Star className='w-3 h-3 sm-plus:w-6 sm-plus:h-6' fill='yellow' color='white' />{recipe.rating}</p>
                                 </div>
-                                <button onClick={() => handleRecipe(recipe)} className='rounded-md text-white font-bold bg-gradient-to-r from-orange-500 to-red-600 hover:opacity-90 transition py-2'>View Recipe</button>
+                                <button onClick={() => handleRecipe(recipe)} className='py-1 sm-plus:py-2 rounded-md text-white text-[0.5rem] sm-plus:text-base font-bold bg-gradient-to-r from-orange-500 to-red-600 hover:opacity-90 transition '>View Recipe</button>
                             </div>
                         </div>
                     ))}

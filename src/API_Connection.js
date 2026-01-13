@@ -5,7 +5,6 @@ const RECIPE_API_KEY = import.meta.env.VITE_RECIPE_API_KEY;
 
 const Width = "800";
 const Height = "400";
-const Model = "flux";
 
 const prompt = (recipeTitle, ingredients) => {
   return `You are a professional chef and recipe expert. Based on the ingredients ${
@@ -63,7 +62,6 @@ const getImages = (imageName) => {
     height: Height,
     noLogo: "true",
     enhance: "true",
-    model: Model,
     seed,
   });
 
@@ -73,25 +71,29 @@ const getImages = (imageName) => {
 };
 
 const getRecipe = async (recipeTitle, ingredients) => {
-  console.log(recipeTitle)
+  console.log(recipeTitle);
   try {
     console.log(`${ingredients} from `);
     const res = await axios.post(
-      "https://openrouter.ai/api/v1/chat/completions",
+      "https://api.a4f.co/v1/chat/completions",
       {
-        model: "mistralai/mistral-7b-instruct",
-        messages: [{ role: "user", content: `${prompt(recipeTitle, ingredients)}` }],
-        temperature: 0.7,
+        model: "provider-6/gpt-oss-20b",
+        messages: [
+          {
+            role: "user",
+            content: String(prompt(recipeTitle, ingredients)),
+          },
+        ],
+        max_tokens: 500,
       },
       {
         headers: {
           Authorization: `Bearer ${RECIPE_API_KEY}`,
           "Content-Type": "application/json",
-          "HTTP-Referer": "http://localhost:5173",
-          "X-Title": "Recipe Generator",
         },
       }
     );
+
     const reply = res.data.choices[0].message.content;
     return reply;
   } catch (error) {
