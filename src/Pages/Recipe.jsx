@@ -1,14 +1,12 @@
+/* src/Pages/Recipe.jsx */
 import Formatter from "../Formatter";
 import { getImages, getRecipe } from "../API_Connection";
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
-export default function Recipe(props) {
-  // Ingredients, Recipe Title, showRecipe
-
+export default function Recipe({ ingredients, showRecipe }) {
   const [recipe, setRecipe] = useState("");
   const [imageURL, setImageURL] = useState(null);
-
   const [recipeLoading, setRecipeLoading] = useState(false);
   const [imageLoading, setImageLoading] = useState(false);
 
@@ -16,55 +14,50 @@ export default function Recipe(props) {
 
   useEffect(() => {
     generateRecipe();
-  }, [props.showRecipe]);
+  }, [showRecipe]);
 
   const generateRecipe = async () => {
-    // const recipeTitle = props?.recipeTitle;
-    const ingredients = props.ingredients;
-    console.log("--------------", ingredients);
-
     setRecipeLoading(true);
-    const recipe = await getRecipe(ingredients);
-    console.log(recipe);
-    setRecipe(recipe);
+    const result = await getRecipe(ingredients);
+    setRecipe(result);
 
-    const imageName = recipe.split("/n")[0].replace(/[^a-zA-Z0-9\s]/g, "");
-    console.log("fdkfkdl", imageName);
+    const imageName = result.split("/n")[0].replace(/[^a-zA-Z0-9\s]/g, "");
     setRecipeLoading(false);
 
     setImageLoading(true);
-    const imageURL = await getImages(imageName);
-    console.log(imageURL);
-    setImageURL(imageURL);
+    const url = await getImages(imageName);
+    setImageURL(url);
   };
 
   return (
-    <section className="bg-gradient-to-b from-slate-900 to-slate-800 text-white pt-15 p-10">
-      {/* Recipe Display Section */}
-
+    <section className="bg-[#f2ede4] border-t border-[#e0d8ce] px-5 pt-18 pb-20 flex flex-col items-center gap-10">
+      {/* Intro */}
       {location.state !== null && (
-        <div className="text-center space-y-3">
-          <h2>
-            <span className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-slate-300">Your </span>
-            <span className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold bg-gradient-to-r from-orange-400 to-red-500 bg-clip-text text-transparent">
-              Choice
-            </span>
+        <div className="text-center flex flex-col gap-2.5">
+          <p className="text-[.8rem] font-semibold tracking-[.1em] uppercase text-[#c4714a]">Your Choice</p>
+          <h2 className="font-[family-name:var(--font-display)] text-[clamp(1.6rem,4vw,2.8rem)] font-semibold text-[#1c1612]">
+            A delightful recipe crafted just for you.
           </h2>
-          <p className="text-sm sm:text-base md:text-lg lg:text-xl text-slate-400">A delightful recipe for someone as delightful as You.</p>
         </div>
       )}
 
+      {/* Skeleton */}
       {recipeLoading && (
-        <section className="px-5 sm:px-10 py-12">
-          <div className="max-w-4xl aspect-square mx-auto bg-gradient-to-br from-slate-300/50 to-slate-400/60 animate-pulse rounded-2xl p-8 md:p-12 border-2 border-slate-700/50"></div>
-        </section>
-      )}
-      {!recipeLoading && recipe && (
-        <section className="px-5 sm:px-10 py-12">
-          <div className="max-w-5xl mx-auto bg-slate-800/30 rounded-2xl p-8 md:p-12 border-2 border-slate-700/50">
-            <Formatter displayText={recipe} imageURL={imageURL} imageLoading={imageLoading} setImageLoading={setImageLoading} />
+        <div className="w-full max-w-[720px] flex flex-col gap-6">
+          <div className="w-full aspect-[16/7] rounded-[22px] animate-shimmer" />
+          <div className="flex flex-col gap-3">
+            {[80, 60, 70, 50, 65].map((w, i) => (
+              <div key={i} className="h-4 rounded-md animate-shimmer" style={{ width: `${w}%` }} />
+            ))}
           </div>
-        </section>
+        </div>
+      )}
+
+      {/* Recipe card */}
+      {!recipeLoading && recipe && (
+        <div className="w-full max-w-[720px] bg-white border border-[#e0d8ce] rounded-[22px] px-12 py-12 shadow-[0_12px_48px_rgba(28,22,18,.10)]">
+          <Formatter displayText={recipe} imageURL={imageURL} imageLoading={imageLoading} setImageLoading={setImageLoading} />
+        </div>
       )}
     </section>
   );

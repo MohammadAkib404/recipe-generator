@@ -1,146 +1,139 @@
-import React, { useState } from 'react'
-import { ChefHat, Sparkles, X, Search, Plus, Package } from 'lucide-react'
-import Recipe from './Recipe';
+/* src/Pages/RecipeGenerator.jsx */
+import React, { useState } from "react";
+import { Plus, X, Sparkles } from "lucide-react";
+import Recipe from "./Recipe";
 
+const SELECT_FIELDS = [
+  {
+    label: "Cuisine Type",
+    options: ["Any Cuisine", "Asian", "Mexican", "Italian", "Mediterranean", "Indian"],
+  },
+  {
+    label: "Cooking Time",
+    options: ["Any Time", "Under 15 mins", "Under 30 mins", "Under 1 hour", "1–2 hours"],
+  },
+  {
+    label: "Dietary Needs",
+    options: ["No Restrictions", "Vegetarian", "Vegan", "Gluten Free", "Keto", "Paleo"],
+  },
+];
 
 function RecipeGenerator() {
+  const [input, setInput] = useState("");
+  const [ingredients, setIngredients] = useState([]);
+  const [showRecipe, setShowRecipe] = useState(false);
 
-    const [input, setInput] = useState("");
+  const addIngredient = (e) => {
+    e.preventDefault();
+    if (!input.trim()) return;
+    setIngredients((prev) => [...prev, input.trim()]);
+    setInput("");
+  };
 
-    const [ingredients, setIngredients] = useState([]);
-    const [showRecipe, setShowRecipe] = useState(false);
+  const removeIngredient = (i) => {
+    setIngredients((prev) => prev.filter((_, idx) => idx !== i));
+  };
 
-    const addIngredients = (e) => {
-        e.preventDefault();
-        setIngredients((prev) => ([
-            ...prev,
-            input
-        ]))
-        setInput('');
-    }
+  return (
+    <>
+      <main className="min-h-[calc(100vh-68px)] bg-[#faf7f2] px-5 pt-20 pb-20 flex flex-col items-center gap-12">
+        {/* Page header */}
+        <div className="flex flex-col items-center gap-3.5 text-center">
+          <span className="inline-block px-3.5 py-1.5 bg-[#f2ede4] border border-[#e0d8ce] rounded-full text-[.75rem] font-semibold tracking-[.1em] uppercase text-[#c4714a]">
+            AI-Powered
+          </span>
+          <h1 className="font-[family-name:var(--font-display)] text-[clamp(2.4rem,6vw,4.5rem)] font-bold text-[#1c1612] tracking-[-0.02em] leading-[1.1]">
+            Recipe Generator
+          </h1>
+          <p className="text-base text-[#8c7d72] max-w-[380px] leading-[1.7]">Tell us what's in your kitchen — we'll handle the rest.</p>
+        </div>
 
-    const removeIngredient = (indexToRemove) => {
-        const updated = ingredients.filter((_, index) => index !== indexToRemove);
-        setIngredients(updated);
-    }
-        
+        {/* Card */}
+        <div className="w-full max-w-[560px] bg-white border border-[#e0d8ce] rounded-[22px] px-9 py-9 shadow-[0_4px_20px_rgba(28,22,18,.08)] flex flex-col gap-7">
+          {/* Ingredients */}
+          <section className="flex flex-col gap-2.5">
+            <label className="text-[.82rem] font-semibold tracking-[.06em] uppercase text-[#4a3f35]">Ingredients you have</label>
+            <form onSubmit={addIngredient} className="flex gap-2.5">
+              <input
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                type="text"
+                placeholder="e.g. chicken, garlic, lemon…"
+                className="flex-1 px-4 py-2.5 bg-[#faf7f2] border-[1.5px] border-[#e0d8ce] rounded-lg text-sm text-[#1c1612] placeholder-[#8c7d72] outline-none transition-all duration-200 focus:border-[#c4714a] focus:shadow-[0_0_0_3px_rgba(196,113,74,.12)]"
+              />
+              <button
+                type="submit"
+                aria-label="Add ingredient"
+                className="w-11 h-11 shrink-0 bg-[#c4714a] text-white rounded-lg flex items-center justify-center border-none cursor-pointer transition-all duration-200 hover:bg-[#9e4f30] hover:scale-[1.06]"
+              >
+                <Plus size={18} strokeWidth={2.5} />
+              </button>
+            </form>
 
-    return (
-        <>
-            <section className='pt-25 px-5 sm:px-10 flex flex-col items-center text-white bg-gradient-to-r from-slate-800 to-slate-900'>
-                {/* HeroSection  */}
-                <div className='flex flex-col items-center mt-10 py-5'>
-                    <div className='flex items-center'>
-                        <div className='bg-orange-500 p-3 rounded-xl mr-5 animate-bounce'>
-                            <ChefHat color='white' size={25} />
-                        </div>
-                        <div className='animate-pulse'>
-                            <Sparkles color='orange' size={32} />
-                        </div>
-                    </div>
-
-                    <div className='flex flex-col items-center'>
-                        <h3 className='text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl mt-2.5 mb-2 sm:mb-3 sm:mt-3 md:mb-4 md:mt-4 lg:mb-5 lg:mt-5 font-bold bg-gradient-to-r from-orange-400 via-orange-450 to-orange-500 bg-clip-text text-transparent p-3'>
-                            Recipe Generator
-                        </h3>
-
-                        <p className='text-center text-sm sm:text-base md:text-lg text-slate-300 max-w-xl'>
-                            Transform your ingredients into a culinary masterpiece with AI-powered suggestions
-                        </p>
-                    </div>
-                </div>
-
-                {/* InputContainer  */}
-                <div className='max-w-2xl w-full rounded-3xl px-5 py-10 bg-slate-800/50 border-2 border-slate-700/50 flex flex-col gap-6 mt-5'>
-                    <form onSubmit={addIngredients}>
-                        <h5 className='text-orange-300 font-semibold pb-2 pl-0.5'>What ingredients do you have?</h5>
-
-                        <div className='flex gap-3'>
-                            <input
-                                value={input}
-                                onChange={(e) => setInput(e.target.value)}
-                                type='text'
-                                placeholder='Enter an ingredient'
-                                className='w-full bg-slate-700/50 text-white px-4 py-2.5 sm:py-3 rounded-xl border-2 border-slate-600 focus:border-orange-500 focus:outline-none transition-all duration-300 placeholder-slate-400'
-                            />
-                            <button
-                                type='submit'
-                                aria-label='Add ingredient'
-                                className='bg-gradient-to-r from-orange-400 to-orange-700 p-3 rounded-xl'
-                            >
-                                <Plus />
-                            </button>
-                        </div>
-
-                        {ingredients.length > 0 && (
-                            <div className='flex flex-wrap gap-2 sm:gap-3 mt-4'>
-                                {ingredients.map((item, index) => (
-                                    <span
-                                        key={index}
-                                        className='bg-slate-700/60 text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl sm:rounded-full border border-orange-500 flex gap-1 sm:gap-2 items-center text-xs sm:text-sm'
-                                    >
-                                        {item}
-                                        <button
-                                            type='button'
-                                            className='text-orange-300 hover:text-red-400 transition'
-                                            onClick={() => removeIngredient(index)}
-                                        >
-                                            <X className='w-3 h-3 sm:w-4 sm:h-4' />
-                                        </button>
-                                    </span>
-                                ))}
-                            </div>
-                        )}
-                    </form>
-
-                    <div>
-                        <h6 className='text-orange-300 font-semibold text-center mb-2'>Cuisine Type</h6>
-                        <select className='w-full bg-slate-700/50 text-white px-4 py-2.5 sm:py-3 rounded-xl border-2 border-slate-600 focus:border-orange-500 focus:outline-none transition-all duration-300'>
-                            <option value='0'>Asian</option>
-                            <option value='1'>Mexican</option>
-                            <option value='2'>Italian</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <h6 className='text-orange-300 font-semibold text-center mb-2'>Cooking Time</h6>
-                        <select className='w-full bg-slate-700/50 text-white px-4 py-2.5 sm:py-3 rounded-xl border-2 border-slate-600 focus:border-orange-500 focus:outline-none transition-all duration-300'>
-                            <option value='0'>Any Time</option>
-                            <option value='1'>Under 15 mins</option>
-                            <option value='2'>Under 30 mins</option>
-                            <option value='3'>Under 1 hour</option>
-                            <option value='4'>1 - 2 hours</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <h6 className='text-orange-300 font-semibold text-center mb-2'>Dietary Needs</h6>
-                        <select className='w-full bg-slate-700/50 text-white px-4 py-2.5 sm:py-3 rounded-xl border-2 border-slate-600 focus:border-orange-500 focus:outline-none transition-all duration-300'>
-                            <option value='0'>No Restrictions</option>
-                            <option value='1'>Vegetarian</option>
-                            <option value='2'>Vegan</option>
-                            <option value='3'>Gluten free</option>
-                            <option value='4'>Keto</option>
-                            <option value='5'>Paleo</option>
-                        </select>
-                    </div>
-
+            {ingredients.length > 0 && (
+              <div className="flex flex-wrap gap-2 mt-1">
+                {ingredients.map((item, i) => (
+                  <span
+                    key={i}
+                    className="flex items-center gap-1.5 px-3 py-1.5 bg-[#f2ede4] border border-[#e0d8ce] rounded-full text-[.83rem] font-medium text-[#4a3f35]"
+                  >
+                    {item}
                     <button
-                        onClick={() => setShowRecipe(true)}
-                        className='flex bg-gradient-to-r from-orange-400 to-orange-600 rounded-xl p-4 justify-center gap-3'
+                      type="button"
+                      onClick={() => removeIngredient(i)}
+                      aria-label="Remove"
+                      className="flex items-center text-[#8c7d72] transition-colors duration-150 hover:text-[#9e4f30] bg-transparent border-none cursor-pointer p-0"
                     >
-                        <Search />
-                        <p className='font-bold'>Generate Recipe</p>
-                        <Sparkles />
+                      <X size={13} strokeWidth={2.5} />
                     </button>
-                </div>
-                
-            </section>
-            {showRecipe && 
-                <Recipe ingredients={ingredients} showRecipe={showRecipe} />
-            }
-        </>
-    )
+                  </span>
+                ))}
+              </div>
+            )}
+          </section>
+
+          {/* Divider */}
+          <div className="h-px bg-[#e0d8ce]" />
+
+          {/* Selects */}
+          <section className="flex flex-col gap-5">
+            {SELECT_FIELDS.map(({ label, options }) => (
+              <div key={label} className="flex flex-col gap-2.5">
+                <label className="text-[.82rem] font-semibold tracking-[.06em] uppercase text-[#4a3f35]">{label}</label>
+                <select
+                  className="w-full px-4 py-2.5 bg-[#faf7f2] border-[1.5px] border-[#e0d8ce] rounded-lg text-sm text-[#1c1612] outline-none cursor-pointer transition-all duration-200 focus:border-[#c4714a] focus:shadow-[0_0_0_3px_rgba(196,113,74,.12)] appearance-none"
+                  style={{
+                    backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M1 4l5 5 5-5' stroke='%238c7d72' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")`,
+                    backgroundRepeat: "no-repeat",
+                    backgroundPosition: "right 14px center",
+                    paddingRight: "36px",
+                  }}
+                >
+                  {options.map((opt) => (
+                    <option key={opt}>{opt}</option>
+                  ))}
+                </select>
+              </div>
+            ))}
+          </section>
+
+          {/* Divider */}
+          <div className="h-px bg-[#e0d8ce]" />
+
+          {/* Generate button */}
+          <button
+            onClick={() => setShowRecipe(true)}
+            className="w-full flex items-center justify-center gap-2.5 py-4 bg-[#c4714a] text-white text-base font-semibold rounded-[14px] border-none cursor-pointer tracking-[.01em] transition-all duration-200 shadow-[0_4px_14px_rgba(196,113,74,.30)] hover:bg-[#9e4f30] hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(196,113,74,.35)]"
+          >
+            <Sparkles size={18} strokeWidth={2} />
+            Generate Recipe
+          </button>
+        </div>
+      </main>
+
+      {showRecipe && <Recipe ingredients={ingredients} showRecipe={showRecipe} />}
+    </>
+  );
 }
 
-export default RecipeGenerator
+export default RecipeGenerator;

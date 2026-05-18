@@ -1,53 +1,52 @@
-import Markdown from "react-markdown"
+/* src/Formatter.jsx */
+import Markdown from "react-markdown";
 
-export default function Formatter({displayText, imageLoading, imageURL, setImageLoading}) {
-    return (
-        <>
-            <Markdown
-                components={{
-                    h1: ({ children }) => (
-                        <>
-                            <h1 className="text-xl text-center md:text-3xl lg:text-5xl font-bold mb-6 text-orange-400 border-b-2 border-orange-400 pb-3">
-                                {children}
-                            </h1>
-                            {imageURL && (
-                                <>
-                                    {imageLoading && (
-                                        <div className='rounded-3xl bg-gradient-to-br from-gray-600 via-gray-500 to-gray-700 animate-pulse w-full aspect-square'></div>
-                                    )}
-
-                                    <div className="my-6">
-                                        <img
-                                            src={imageURL}
-                                            alt="Recipe"
-                                            className={`${imageLoading ? 'hidden' : 'block'} object-cover rounded-3xl`}
-                                            style={{
-                                                width: '720px',
-                                                maxWidth: '100%',
-                                                opacity: imageLoading ? 0 : 1,
-                                                transition: 'opacity 0.5s ease',
-                                            }}
-                                            onLoad={() => setImageLoading(false)}
-                                        />
-                                    </div>
-                                </>
-                            )}
-                        </>
-                    ),
-                    h2: ({ children }) => <h2 className="text-2xl md:text-3xl font-semibold mb-4 mt-8 text-orange-300">{children}</h2>,
-                    h3: ({ children }) => <h3 className="text-xl md:text-2xl font-semibold mb-3 mt-6 text-orange-200">{children}</h3>,
-                    p: ({ children }) => <p className="mb-4 text-slate-300 font-semibold leading-relaxed text-base md:text-lg">{children}</p>,
-                    ul: ({ children }) => <ul className="mb-6 space-y-2 ml-4">{children}</ul>,
-                    ol: ({ children }) => <ol className="mb-6 space-y-3 ml-4 list-decimal list-inside">{children}</ol>,
-                    li: ({ children }) => <li className="text-slate-300 leading-relaxed mb-2">{children}</li>,
-                    em: ({ children }) => <em className="text-slate-300 italic text-sm block mb-2">{children}</em>,
-                    strong: ({ children }) => <strong className="text-orange-300 font-semibold">{children}</strong>,
-                    code: ({ children }) => <code className="bg-slate-700 text-orange-300 px-2 py-1 rounded text-sm font-mono">{children}</code>,
-                    hr: () => <hr className="border-slate-600 my-8" />
-                }}
-            >
-                {displayText}
-            </Markdown>
-        </>
-    )
+export default function Formatter({ displayText, imageLoading, imageURL, setImageLoading }) {
+  return (
+    <Markdown
+      components={{
+        h1: ({ children }) => (
+          <>
+            <h1 className="font-[family-name:var(--font-display)] text-[clamp(1.8rem,5vw,3rem)] font-bold text-[#1c1612] tracking-[-0.02em] leading-[1.15] mb-6 pb-5 border-b-2 border-[#f2ede4]">
+              {children}
+            </h1>
+            {imageURL && (
+              <div className="my-6 rounded-[14px] overflow-hidden border border-[#e0d8ce]">
+                {imageLoading && <div className="w-full aspect-[16/7] animate-shimmer" />}
+                <img
+                  src={imageURL}
+                  alt="Recipe"
+                  className="w-full max-w-full block object-cover"
+                  style={{ display: imageLoading ? "none" : "block" }}
+                  onLoad={() => setImageLoading(false)}
+                />
+              </div>
+            )}
+          </>
+        ),
+        h2: ({ children }) => (
+          <h2 className="font-[family-name:var(--font-display)] text-[clamp(1.2rem,3vw,1.6rem)] font-semibold text-[#c4714a] tracking-[-0.01em] mt-9 mb-3.5">
+            {children}
+          </h2>
+        ),
+        h3: ({ children }) => <h3 className="font-[family-name:var(--font-display)] text-lg font-semibold text-[#4a3f35] mt-6 mb-2.5">{children}</h3>,
+        p: ({ children }) => <p className="text-[.95rem] text-[#4a3f35] leading-[1.8] mb-4">{children}</p>,
+        ul: ({ children }) => <ul className="list-none p-0 mb-5 flex flex-col gap-2">{children}</ul>,
+        ol: ({ children }) => <ol className="pl-5 mb-5 flex flex-col gap-2.5 list-decimal list-inside">{children}</ol>,
+        li: ({ children }) => (
+          <li className="text-[.93rem] text-[#4a3f35] leading-[1.7] pl-1.5 before:content-['—'] before:text-[#c4714a] before:font-semibold before:mr-2.5">
+            {children}
+          </li>
+        ),
+        em: ({ children }) => <em className="italic text-[#8c7d72] text-sm block mb-2">{children}</em>,
+        strong: ({ children }) => <strong className="font-semibold text-[#9e4f30]">{children}</strong>,
+        code: ({ children }) => (
+          <code className="bg-[#f2ede4] border border-[#e0d8ce] text-[#9e4f30] px-2 py-0.5 rounded text-[.84rem] font-mono">{children}</code>
+        ),
+        hr: () => <hr className="border-none border-t border-[#e0d8ce] my-8" />,
+      }}
+    >
+      {displayText}
+    </Markdown>
+  );
 }

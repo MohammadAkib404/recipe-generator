@@ -1,95 +1,87 @@
-import React, { useState } from 'react'
-import { Menu, ChefHat } from 'lucide-react'
-import { Link } from 'react-router-dom';
+/* src/Components/Header.jsx */
+import React, { useState } from "react";
+import { Menu, X, ChefHat } from "lucide-react";
+import { Link } from "react-router-dom";
+
+const navLinks = [
+  { label: "Home", to: "/" },
+  { label: "Recipes", to: "/recipe-generator" },
+  { label: "Categories", to: "/categories" },
+  { label: "Products", to: "/products" },
+];
 
 function Header() {
-    const [isMenu, setIsMenuOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
-    return (
-        <header className='my-auto h-20 border-2 border-slate-700/50 text-white bg-gradient-to-r from-slate-800 to-slate-900 py-2 md:py-2.5 lg:py-3 z-50'>
-            <div className='max-w-7xl mx-auto flex justify-between items-center px-6 md:px-8 lg:px-10'>
-                <div className='flex items-center'>
-                    <div className='relative'>
-                        <div className='bg-orange-500 p-2.5 rounded-xl mr-3'>
-                            <ChefHat color='white' size={20} />
-                        </div>
-                        <div className='absolute -top-0.5 right-2 bg-green-400 h-4 w-4 rounded-full animate-pulse'></div>
-                    </div>
-                    <div className='flex flex-col'>
-                        <strong className='text-2xl md:text-2xl lg:text-3xl sm bg-gradient-to-r from-white via-orange-200 to-orange-300 bg-clip-text text-transparent'>Daily Dish</strong>
-                        <small className='text-gray-300'>Fresh Recipes Daily</small>
-                    </div>
-                </div>
+  return (
+    <header className="sticky top-0 z-50 bg-[#faf7f2]/90 backdrop-blur-md border-b border-[#e0d8ce]">
+      <div className="max-w-[1200px] mx-auto px-7 h-[68px] flex items-center justify-between gap-6">
+        {/* Logo */}
+        <Link to="/" onClick={() => setIsOpen(false)} className="flex items-center gap-2.5 shrink-0">
+          <div className="w-9 h-9 bg-[#c4714a] rounded-[10px] flex items-center justify-center text-white shrink-0">
+            <ChefHat size={18} strokeWidth={2} />
+          </div>
+          <span className="font-[family-name:var(--font-display)] text-2xl font-semibold text-[#1c1612] tracking-tight">Daily Dish</span>
+        </Link>
 
-                <nav className='flex gap-3'>
-                    <div className='hidden md:block'>
-                        <Link to="/" onClick={() => setIsMenuOpen(false)} className='relative px-4 xl:px-6 py-2.5 xl:py-3 text-slate-200 font-medium text-sm xl:text-base tracking-wide hover:text-white transition-all duration-300 group'>
-                            <span className='relative z-10'>Home</span>
-                            <div className='absolute inset-0 bg-gradient-to-r from-orange-500/0 via-orange-500/10 to-orange-500/0 rounded-lg opacity-0 group-hover:opacity-100 transition-all duration-300'></div>
-                            <div className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-gradient-to-r from-orange-400 to-red-500 group-hover:w-full group-hover:left-0 transition-all duration-300"></div>
-                        </Link>
+        {/* Desktop nav */}
+        <nav className="hidden md:flex gap-0.5 flex-1 justify-center">
+          {navLinks.map(({ label, to }) => (
+            <Link
+              key={to}
+              to={to}
+              className="px-4 py-1.5 text-sm font-medium text-[#4a3f35] rounded-lg transition-all duration-200 hover:bg-[#f2ede4] hover:text-[#1c1612]"
+            >
+              {label}
+            </Link>
+          ))}
+        </nav>
 
-                        <Link to="/recipe-generator" onClick={() => setIsMenuOpen(false)} className='relative px-4 xl:px-6 py-2.5 xl:py-3 text-slate-200 font-medium text-sm xl:text-base tracking-wide hover:text-white transition-all duration-300 group'>
-                            <span className='relative z-10'>Recipes</span>
-                            <div className='absolute inset-0 bg-gradient-to-r from-orange-500/0 via-orange-500/10 to-orange-500/0 rounded-lg opacity-0 group-hover:opacity-100 transition-all duration-300'></div>
-                            <div className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-gradient-to-r from-orange-400 to-red-500 group-hover:w-full group-hover:left-0 transition-all duration-300"></div>
-                        </Link>
+        {/* CTA + hamburger */}
+        <div className="flex items-center gap-3 shrink-0">
+          <Link
+            to="/get-started"
+            className="hidden md:inline-block px-5 py-2 bg-[#c4714a] text-white text-sm font-semibold rounded-lg transition-all duration-200 hover:bg-[#9e4f30] hover:-translate-y-px"
+          >
+            Get Started
+          </Link>
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="md:hidden flex items-center justify-center w-9 h-9 border border-[#e0d8ce] rounded-lg text-[#4a3f35] transition-colors hover:bg-[#f2ede4]"
+            aria-label="Toggle menu"
+          >
+            {isOpen ? <X size={20} /> : <Menu size={20} />}
+          </button>
+        </div>
+      </div>
 
-                        <Link to="/categories" onClick={() => setIsMenuOpen(false)} className='relative px-4 xl:px-6 py-2.5 xl:py-3 text-slate-200 font-medium text-sm xl:text-base tracking-wide hover:text-white transition-all duration-300 group'>
-                            <span className='relative z-10'>Categories</span>
-                            <div className='absolute inset-0 bg-gradient-to-r from-orange-500/0 via-orange-500/10 to-orange-500/0 rounded-lg opacity-0 group-hover:opacity-100 transition-all duration-300'></div>
-                            <div className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-gradient-to-r from-orange-400 to-red-500 group-hover:w-full group-hover:left-0 transition-all duration-300"></div>
-                        </Link>
-
-                        <Link to="/products" onClick={() => setIsMenuOpen(false)} className='relative px-4 xl:px-6 py-2.5 xl:py-3 text-slate-200 font-medium text-sm xl:text-base tracking-wide hover:text-white transition-all duration-300 group'>
-                            <span className='relative z-10'>Products</span>
-                            <div className='absolute inset-0 bg-gradient-to-r from-orange-500/0 via-orange-500/10 to-orange-500/0 rounded-lg opacity-0 group-hover:opacity-100 transition-all duration-300'></div>
-                            <div className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-gradient-to-r from-orange-400 to-red-500 group-hover:w-full group-hover:left-0 transition-all duration-300"></div>
-                        </Link>
-
-                        <Link to="/get-started" onClick={() => setIsMenuOpen(false)} className='bg-gradient-to-r from-orange-500 to-red-600 text-white font-semibold rounded-xl px-4 xl:px-6 py-2.5 xl:py-3 inline-block hover:from-orange-600 hover:to-red-700 transform hover:scale-105 transition-all duration-300 shadow-xl hover:shadow-orange-500/25'>
-                            Get Started
-                        </Link>
-                    </div>
-
-                    <div onClick={() => setIsMenuOpen(!isMenu)} className='flex items-center md:hidden cursor-pointer'>
-                        <Menu size={30} />
-                    </div>
-                </nav>
-            </div>
-
-            {/* Mobile Navigation */}
-            <nav className={`md:hidden absolute w-full flex flex-col gap-5 p-5 transform transition-all duration-300 bg-gradient-to-r from-slate-800 to-slate-900 ${isMenu ? "max-h-80 opacity-100" : "max-h-0 opacity-0 overflow-hidden"}`}>
-                <Link to="/" onClick={() => setIsMenuOpen(false)} className='relative px-4 py-2.5 text-slate-200 font-medium text-sm tracking-wide hover:text-white transition-all duration-300 group'>
-                    <span className='relative z-10'>Home</span>
-                    <div className='absolute inset-0 bg-gradient-to-r from-orange-500/0 via-orange-500/10 to-orange-500/0 rounded-lg opacity-0 group-hover:opacity-100 transition-all duration-300'></div>
-                    <div className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-gradient-to-r from-orange-400 to-red-500 group-hover:w-full group-hover:left-0 transition-all duration-300"></div>
-                </Link>
-
-                <Link to="/recipe-generator" onClick={() => setIsMenuOpen(false)} className='relative px-4 py-2.5 text-slate-200 font-medium text-sm tracking-wide hover:text-white transition-all duration-300 group'>
-                    <span className='relative z-10'>Recipes</span>
-                    <div className='absolute inset-0 bg-gradient-to-r from-orange-500/0 via-orange-500/10 to-orange-500/0 rounded-lg opacity-0 group-hover:opacity-100 transition-all duration-300'></div>
-                    <div className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-gradient-to-r from-orange-400 to-red-500 group-hover:w-full group-hover:left-0 transition-all duration-300"></div>
-                </Link>
-
-                <Link to="/categories" onClick={() => setIsMenuOpen(false)} className='relative px-4 py-2.5 text-slate-200 font-medium text-sm tracking-wide hover:text-white transition-all duration-300 group'>
-                    <span className='relative z-10'>Categories</span>
-                    <div className='absolute inset-0 bg-gradient-to-r from-orange-500/0 via-orange-500/10 to-orange-500/0 rounded-lg opacity-0 group-hover:opacity-100 transition-all duration-300'></div>
-                    <div className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-gradient-to-r from-orange-400 to-red-500 group-hover:w-full group-hover:left-0 transition-all duration-300"></div>
-                </Link>
-
-                <Link to="/products" onClick={() => setIsMenuOpen(false)} className='relative px-4 py-2.5 text-slate-200 font-medium text-sm tracking-wide hover:text-white transition-all duration-300 group'>
-                    <span className='relative z-10'>Products</span>
-                    <div className='absolute inset-0 bg-gradient-to-r from-orange-500/0 via-orange-500/10 to-orange-500/0 rounded-lg opacity-0 group-hover:opacity-100 transition-all duration-300'></div>
-                    <div className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-gradient-to-r from-orange-400 to-red-500 group-hover:w-full group-hover:left-0 transition-all duration-300"></div>
-                </Link>
-
-                <Link to="/get-started">
-                    <button onClick={() => setIsMenuOpen(false)} className='bg-gradient-to-r from-orange-500 to-red-600 text-white font-bold rounded-xl px-7 py-3 text-center'>Get Started</button>
-                </Link>
-            </nav>
-        </header>
-    );
+      {/* Mobile nav */}
+      <div
+        className={`md:hidden overflow-hidden transition-all duration-300 bg-[#faf7f2] border-t border-[#e0d8ce]
+          ${isOpen ? "max-h-80 opacity-100 py-4 px-4" : "max-h-0 opacity-0 py-0 px-4"}`}
+      >
+        <div className="flex flex-col gap-1">
+          {navLinks.map(({ label, to }) => (
+            <Link
+              key={to}
+              to={to}
+              onClick={() => setIsOpen(false)}
+              className="px-4 py-3 text-sm font-medium text-[#4a3f35] rounded-lg transition-colors hover:bg-[#f2ede4]"
+            >
+              {label}
+            </Link>
+          ))}
+          <Link
+            to="/get-started"
+            onClick={() => setIsOpen(false)}
+            className="mt-2 px-5 py-3 bg-[#c4714a] text-white text-sm font-semibold rounded-lg text-center transition-colors hover:bg-[#9e4f30]"
+          >
+            Get Started
+          </Link>
+        </div>
+      </div>
+    </header>
+  );
 }
 
 export default Header;

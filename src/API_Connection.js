@@ -5,18 +5,19 @@ const POLLINATIONS_API_KEY = import.meta.env.VITE_POLLINATIONS_API_KEY;
 const WIDTH = 800;
 const HEIGHT = 400;
 
-const prompt = (recipeTitle, ingredients) => {
+const prompt = (ingredients) => {
   return `
 You are a professional chef and recipe expert.
 
-Based on the ingredients ${recipeTitle ? `and recipe title "${recipeTitle}"` : ""}, create a detailed practical recipe.
+Based on the ingredients create a detailed practical recipe.
 
 INGREDIENTS:
 ${ingredients}
 
 Return ONLY valid markdown.
 
-# 🧑‍🍳 ${recipeTitle || "Creative Recipe"}
+# 🧑‍🍳 Recipe Title
+A Unique but relvant recipe title.
 
 ## ⏱ Cooking Time
 Provide prep + cooking time.
