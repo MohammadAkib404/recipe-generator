@@ -1,103 +1,98 @@
 import axios from "axios";
-import { useState } from "react";
 
-const RECIPE_API_KEY = import.meta.env.VITE_RECIPE_API_KEY;
+const POLLINATIONS_API_KEY = import.meta.env.VITE_POLLINATIONS_API_KEY;
 
-const Width = "800";
-const Height = "400";
+const WIDTH = 800;
+const HEIGHT = 400;
 
 const prompt = (recipeTitle, ingredients) => {
-  return `You are a professional chef and recipe expert. Based on the ingredients ${
-    recipeTitle ? `and ${recipeTitle}` : ""
-  } provided, create a detailed, practical recipe.
+  return `
+You are a professional chef and recipe expert.
 
-INGREDIENTS AVAILABLE: ${ingredients}
+Based on the ingredients ${recipeTitle ? `and recipe title "${recipeTitle}"` : ""}, create a detailed practical recipe.
 
-📌 Please return your response **strictly in Markdown format**.
+INGREDIENTS:
+${ingredients}
 
-Use the following Markdown structure **with proper headings and spacing**:
+Return ONLY valid markdown.
 
-# 🧑‍🍳 ${recipeTitle || "A unique and relevant dish title"}
+# 🧑‍🍳 ${recipeTitle || "Creative Recipe"}
 
-## ⏱ Cooking Time  
-_Preparation + Cooking duration_
+## ⏱ Cooking Time
+Provide prep + cooking time.
 
-## 🎚 Difficulty  
-_Beginner / Intermediate / Advanced_
+## 🎚 Difficulty
+Beginner / Intermediate / Advanced
 
-## 📝 Ingredients  
-- List items using dashes (-)  
-- Include exact quantities and common pantry staples  
-- Example: \`- 1 tbsp olive oil\`
+## 📝 Ingredients
+- Include quantities
+- Use bullet points
 
-## 🔪 Instructions  
-1. Number every step clearly  
-2. Include cooking temperatures, times, and visual cues (e.g., golden brown, soft, aromatic)
+## 🔪 Instructions
+1. Number each step clearly
+2. Include cooking cues and timings
 
-## 👨‍🍳 Chef’s Tips  
-- Write 2–3 short tips to enhance flavor, texture, or ease of cooking
+## 👨‍🍳 Chef’s Tips
+- 2 to 3 practical tips
 
-## 🔄 Variations  
-- Suggest 1–2 alternate versions (e.g., vegetarian, spicier, quicker)
+## 🔄 Variations
+- 1 to 2 alternate versions
 
----
-
-### ✅ Requirements:
-- Use **all provided ingredients**
-- Make it suitable for **home cooks**
-- Focus on **balanced flavors and nutrition**
-- Add **food safety notes** where relevant
-
-⚠️ Do not include anything outside the Markdown. No extra explanations or introductions. Also avoid using Italic Font.
+Requirements:
+- Use all ingredients
+- Home cook friendly
+- Balanced flavors
+- No extra explanations outside markdown
 `;
 };
 
-const getImages = (imageName) => {
-  const seed = String(Math.floor(Math.random() * 100));
+const getImages = (imagePrompt) => {
+  const seed = Math.floor(Math.random() * 1000000);
 
-  const baseUrl = "https://image.pollinations.ai/prompt/";
-  const encodedPrompt = encodeURIComponent(imageName);
   const params = new URLSearchParams({
-    width: Width,
-    height: Height,
-    noLogo: "true",
+    model: "flux",
+    width: WIDTH.toString(),
+    height: HEIGHT.toString(),
     enhance: "true",
-    seed,
+    nologo: "true",
+    private: "true",
+    seed: seed.toString(),
+    key: POLLINATIONS_API_KEY,
   });
 
-  const fullUrl = `${baseUrl}${encodedPrompt}?${params.toString()}`;
-  console.log(fullUrl);
-  return fullUrl;
+  return `https://gen.pollinations.ai/image/${encodeURIComponent(imagePrompt)}?${params.toString()}`;
 };
 
-const getRecipe = async (recipeTitle, ingredients) => {
-  console.log(recipeTitle);
+const getRecipe = async (ingredients) => {
   try {
-    console.log(`${ingredients} from `);
-    const res = await axios.post(
-      "https://api.a4f.co/v1/chat/completions",
+    const response = await axios.post(
+      "https://gen.pollinations.ai/v1/chat/completions",
       {
-        model: "provider-6/gpt-oss-20b",
+        model: "openai",
         messages: [
           {
+            role: "system",
+            content: "You are a professional chef that responds only in markdown.",
+          },
+          {
             role: "user",
-            content: String(prompt(recipeTitle, ingredients)),
+            content: prompt(ingredients),
           },
         ],
-        max_tokens: 500,
+        max_tokens: 800,
       },
       {
         headers: {
-          Authorization: `Bearer ${RECIPE_API_KEY}`,
+          Authorization: `Bearer ${POLLINATIONS_API_KEY}`,
           "Content-Type": "application/json",
         },
-      }
+      },
     );
 
-    const reply = res.data.choices[0].message.content;
-    return reply;
+    return response.data?.choices?.[0]?.message?.content || response;
   } catch (error) {
-    console.error("Recipe generation error:", error);
+    console.error("Recipe generation error:", error.response?.data || error.message);
+    return "Failed to generate recipe.";
   }
 };
 
