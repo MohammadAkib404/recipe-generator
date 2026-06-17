@@ -2,8 +2,8 @@ import axios from "axios";
 
 const POLLINATIONS_API_KEY = import.meta.env.VITE_POLLINATIONS_API_KEY;
 
-const WIDTH = 800;
-const HEIGHT = 400;
+const WIDTH = 1024;
+const HEIGHT = 1024;
 
 const prompt = (ingredients) => {
   return `
@@ -61,7 +61,11 @@ const getImages = (imagePrompt) => {
     key: POLLINATIONS_API_KEY,
   });
 
-  return `https://gen.pollinations.ai/image/${encodeURIComponent(imagePrompt)}?${params.toString()}`;
+  const imageUrl = `https://gen.pollinations.ai/image/${encodeURIComponent(imagePrompt)}?${params.toString()}`;
+
+  console.log(imageUrl);
+
+  return imageUrl;
 };
 
 const getRecipe = async (ingredients) => {

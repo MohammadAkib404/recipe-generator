@@ -1,5 +1,5 @@
 /* src/Pages/Recipe.jsx */
-import Formatter from "../Formatter";
+import Formatter from "../Components/Formatter";
 import { getImages, getRecipe } from "../API_Connection";
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
@@ -13,15 +13,21 @@ export default function Recipe({ ingredients, showRecipe }) {
   const location = useLocation();
 
   useEffect(() => {
+    setRecipeLoading(true);
     generateRecipe();
   }, [showRecipe]);
 
   const generateRecipe = async () => {
-    setRecipeLoading(true);
     const result = await getRecipe(ingredients);
     setRecipe(result);
 
-    const imageName = result.split("/n")[0].replace(/[^a-zA-Z0-9\s]/g, "");
+    const imageName = result
+      .split("/n")[0]
+      .replace(/[^a-zA-Z0-9\s]/g, "")
+      .split(" ")
+      .slice(0, 10)
+      .join("");
+    console.log(imageName);
     setRecipeLoading(false);
 
     setImageLoading(true);
@@ -30,14 +36,12 @@ export default function Recipe({ ingredients, showRecipe }) {
   };
 
   return (
-    <section className="bg-[#f2ede4] border-t border-[#e0d8ce] px-5 pt-18 pb-20 flex flex-col items-center gap-10">
+    <section className="bg-cream border-t border-border px-5 pt-18 pb-20 flex flex-col items-center gap-10">
       {/* Intro */}
       {location.state !== null && (
         <div className="text-center flex flex-col gap-2.5">
-          <p className="text-[.8rem] font-semibold tracking-[.1em] uppercase text-[#c4714a]">Your Choice</p>
-          <h2 className="font-[family-name:var(--font-display)] text-[clamp(1.6rem,4vw,2.8rem)] font-semibold text-[#1c1612]">
-            A delightful recipe crafted just for you.
-          </h2>
+          <p className="text-[.8rem] font-semibold tracking-[.1em] uppercase text-clay">Your Choice</p>
+          <h2 className="font-display text-[clamp(1.6rem,4vw,2.8rem)] font-semibold text-ink">A delightful recipe crafted just for you.</h2>
         </div>
       )}
 
@@ -55,7 +59,7 @@ export default function Recipe({ ingredients, showRecipe }) {
 
       {/* Recipe card */}
       {!recipeLoading && recipe && (
-        <div className="w-full max-w-[720px] bg-white border border-[#e0d8ce] rounded-[22px] px-12 py-12 shadow-[0_12px_48px_rgba(28,22,18,.10)]">
+        <div className="w-full max-w-[720px] bg-white border border-border rounded-[22px] px-12 py-12 shadow-[0_12px_48px_rgba(28,22,18,.10)]">
           <Formatter displayText={recipe} imageURL={imageURL} imageLoading={imageLoading} setImageLoading={setImageLoading} />
         </div>
       )}
